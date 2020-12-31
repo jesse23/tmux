@@ -328,6 +328,7 @@ tmux_conf_theme_clock_style="24"
 #   - false (default)
 # on macOS, this requires installing reattach-to-user-namespace, see README.md
 # on Linux, this requires xsel or xclip
+# 20201231 - not sure why but it works for mac event it is false
 tmux_conf_copy_to_os_clipboard=false
 
 # -- user customizations -------------------------------------------------------
