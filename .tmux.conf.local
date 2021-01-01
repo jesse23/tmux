@@ -358,9 +358,14 @@ set -g status-position top
 # toggle status bar
 bind-key C-b set-option -g status #Ctrl+F3 Combo
 
+# 24-bit true color
+# https://github.com/tmux/tmux/issues/1246
+# set -g default-terminal "screen-256color"
+set -g default-terminal "xterm-256color"
+set -ga terminal-overrides ",*256col*:Tc"
+
 # get vim cursor work 
 # https://www.reddit.com/r/vim/comments/ez8gqv/help_changing_vim_cursor_in_insert_mode_with/
-set -g default-terminal "xterm-256color"
 set -as terminal-overrides '*:Ss=\E[%p1%d q:Se=\E[2 q'
 set -g xterm-keys on
 
@@ -369,7 +374,7 @@ unbind "'"
 unbind -
 bind "'" split-window -h -c "#{pane_current_path}"
 bind - split-window -v -c "#{pane_current_path}"
-bind n run 'cut -c3- ~/.tmux.conf | sh -s _maximize_pane "#{session_name}" #D'
+bind N run 'cut -c3- ~/.tmux.conf | sh -s _maximize_pane "#{session_name}" #D'
 
 # -- custom variables ----------------------------------------------------------
 # to define a custom #{foo} variable, define a POSIX shell function between the
