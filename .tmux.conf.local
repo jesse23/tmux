@@ -373,6 +373,7 @@ set -g xterm-keys on
 bind X confirm-before -p "kill other panes? (y/n)" "kill-pane -a"
 bind N run 'cut -c3- ~/.tmux.conf | sh -s _maximize_pane "#{session_name}" #D'
 bind m resize-pane -Z
+bind h last-window
 
 # -- custom variables ----------------------------------------------------------
 # to define a custom #{foo} variable, define a POSIX shell function between the
