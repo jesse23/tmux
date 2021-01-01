@@ -369,12 +369,10 @@ set -ga terminal-overrides ",*256col*:Tc"
 set -as terminal-overrides '*:Ss=\E[%p1%d q:Se=\E[2 q'
 set -g xterm-keys on
 
-# bind global pane split
-unbind "'"
-unbind -
-bind "'" split-window -h -c "#{pane_current_path}"
-bind - split-window -v -c "#{pane_current_path}"
+# universal keymap
+bind X confirm-before -p "kill other panes? (y/n)" "kill-pane -a"
 bind N run 'cut -c3- ~/.tmux.conf | sh -s _maximize_pane "#{session_name}" #D'
+bind m resize-pane -Z
 
 # -- custom variables ----------------------------------------------------------
 # to define a custom #{foo} variable, define a POSIX shell function between the
