@@ -342,8 +342,8 @@ set -g mouse on
 
 # force Vi mode
 #   really you should export VISUAL or EDITOR environment variable, see manual
-#set -g status-keys vi
-#set -g mode-keys vi
+set -g status-keys vi
+set -g mode-keys vi
 
 # replace C-b by C-a instead of using both prefixes
 # set -gu prefix2
@@ -356,7 +356,8 @@ set -g mouse on
 set -g status-position top
 
 # toggle status bar
-bind-key C-b set-option -g status #Ctrl+F3 Combo
+bind-key b set-option -g status #Ctrl+F3 Combo
+bind-key C-b send-prefix
 
 # 24-bit true color
 # https://github.com/tmux/tmux/issues/1246
@@ -374,6 +375,23 @@ bind X confirm-before -p "kill other panes? (y/n)" "kill-pane -a"
 bind N run 'cut -c3- ~/.tmux.conf | sh -s _maximize_pane "#{session_name}" #D'
 bind m resize-pane -Z
 bind u last-window
+bind v copy-mode
+
+# https://superuser.com/questions/989505/pass-mouse-events-through-tmux/1319237#1319237
+# Emulate scrolling by sending up and down keys if these commands are running in the pane
+tmux_commands_with_legacy_scroll="nano less more man"
+
+bind-key -T root WheelUpPane \
+    if-shell -Ft= '#{?mouse_any_flag,1,#{pane_in_mode}}' \
+        'send -Mt=' \
+        'if-shell -t= "#{?alternate_on,true,false} || echo \"#{tmux_commands_with_legacy_scroll}\" | grep -q \"#{pane_current_command}\"" \
+            "send -t= Up Up Up" "copy-mode -et="'
+
+bind-key -T root WheelDownPane \
+    if-shell -Ft = '#{?pane_in_mode,1,#{mouse_any_flag}}' \
+        'send -Mt=' \
+        'if-shell -t= "#{?alternate_on,true,false} || echo \"#{tmux_commands_with_legacy_scroll}\" | grep -q \"#{pane_current_command}\"" \
+            "send -t= Down Down Down" "send -Mt="'
 
 # -- custom variables ----------------------------------------------------------
 # to define a custom #{foo} variable, define a POSIX shell function between the
